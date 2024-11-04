@@ -18,38 +18,37 @@ app.get("/icon", (req, res) => {
   res.render('icon', { filename:"./public/Apple_logo_black.svg", alt:"Apple Logo"});
 });
 
-app.get("/luck", (req, res) => {
-  const num = Math.floor( Math.random() * 6 + 1 );
-  let luck = '';
-  if( num==1 ) luck = '大吉';
-  else if( num==2 ) luck = '中吉';
-  console.log( 'あなたの運勢は' + luck + 'です' );
-  res.render( 'luck', {number:num, luck:luck} );
-});
-
 app.get("/janken", (req, res) => {
-  let hand = req.query.hand;
-  let win = Number( req.query.win );
-  let total = Number( req.query.total );
-  console.log( {hand, win, total});
-  const num = Math.floor( Math.random() * 3 + 1 );
-  let cpu = '';
-  if( num==1 ) cpu = 'グー';
-  else if( num==2 ) cpu = 'チョキ';
-  else cpu = 'パー';
-  // ここに勝敗の判定を入れる
-  // 今はダミーで人間の勝ちにしておく
-  let judgement = '勝ち';
-  win += 1;
-  total += 1;
-  const display = {
+  const hand = req.query.hand;
+  let win = Number(req.query.win) || 0;
+  let total = Number(req.query.total) || 0;
+  const cpuHands = ["グー", "チョキ", "パー"];
+  const cpu = cpuHands[Math.floor(Math.random() * 3)];
+
+  if (!["グー", "チョキ", "パー"].includes(hand)) {
+    return res.send("エラー：有効な手（グー、チョキ、パー）を入力してください。");
+  }
+
+  const results = {
+    "グー": { "グー": "引き分け", "チョキ": "勝ち", "パー": "負け" },
+    "チョキ": { "グー": "負け", "チョキ": "引き分け", "パー": "勝ち" },
+    "パー": { "グー": "勝ち", "チョキ": "負け", "パー": "引き分け" }
+  };
+
+  const judgement = results[hand][cpu];
+  if (judgement === '勝ち') win++;
+  total++;
+
+  res.render('janken', {
     your: hand,
     cpu: cpu,
     judgement: judgement,
     win: win,
     total: total
-  }
-  res.render( 'janken', display );
+  });
 });
+
+
+
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
