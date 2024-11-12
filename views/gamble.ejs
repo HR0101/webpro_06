@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>サイコロ 半か丁</title>
+</head>
+<body>
+  <h1>サイコロ 半か丁</h1>
+
+  <form action="/gamble" method="get">
+    <input name="rolls" min="1" placeholder="半角で数字を入力" required>
+    <select name="guess" required>
+      <option value="半">半</option>
+      <option value="丁">丁</option>
+    </select>
+    <button type="submit">振る</button>
+  </form>
+
+  <% if (results.length) { %>
+    <h2>結果</h2>
+    <p>サイコロの目: <%= results.join(', ') %></p>
+    <p>合計: <%= sum %></p>
+    <p>結果: <%= outcome %></p>
+    <p>予想: <%= guess %></p>
+    <p><%= judgement %></p>
+  <% } %>
+</body>
+</html>
+
+

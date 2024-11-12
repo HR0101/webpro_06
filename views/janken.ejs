@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>じゃんけん</title>
+  <meta charset="UTF-8">
+  <title>ジャンケンゲーム</title>
 </head>
 <body>
-    <p>あなたの手は<%= your %>です．</p>
-    <p>コンピュータは<%= cpu %>です．</p>
-    <p>判定：<%= judgement %></p>
-    <p>現在<%= total %>試合中<%= win %>勝しています．</p>
-    <hr>
-    <form action="/janken">
-        <label for="hand">次は何を出す？（グー・チョキ・パー）</label>
-        <input type="text" name="hand" required>
-        <input type="hidden" name="win" value="<%= win %>">
-        <input type="hidden" name="total" value="<%= total %>">
-        <button type="submit">じゃんけん ポン</button>
-    </form>   
+  <h1>ジャンケンゲーム</h1>
+
+  <form action="/janken" method="get">
+    <label for="hand">あなたの手を選んでください：</label>
+    <select name="hand" id="hand">
+      <option value="グー">グー</option>
+      <option value="チョキ">チョキ</option>
+      <option value="パー">パー</option>
+    </select>
+    <input type="hidden" name="win" value="<%= win %>">
+    <input type="hidden" name="total" value="<%= total %>">
+    <button type="submit">ポン</button>
+  </form>
+
+  <h2>結果</h2>
+  <% if (judgement) { %>
+    <p>あなたの手: <%= your %></p>
+    <p>CPUの手: <%= cpu %></p>
+    <p>結果: <%= judgement %></p>
+  <% } %>
+
+  <h3>戦績</h3>
+  <p>勝ち数: <%= win %></p>
+  <p>総ゲーム数: <%= total %></p>
 </body>
 </html>
+

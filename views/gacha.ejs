@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ガチャ</title>
+</head>
+<body>
+  <h1>ガチャシステム</h1>
+
+  <form action="/gacha" method="get">
+    <label for="pulls">引く回数を選んでください:</label>
+    <select name="pulls" required>
+      <option value="1">1回</option>
+      <option value="10">10回</option>
+      <option value="100">100回</option>
+      <option value="1000">1000回</option>
+    </select>
+    <button type="submit">ガチャを引く</button>
+  </form>
+<h5>排出確率<h5>
+<p><span style="color:gold">星5．0.6%</span></p>
+<p><span style="color:rgb(165, 0, 165)">星4．10.0%</span></p>
+<p><span style="color:blue">星3．89.4%</span></p>
+</p>
+  <% if (results.length) { %>
+    <h2><%= pulls %>回ガチャを引いた結果</h2>
+    <ul>
+      <% results.forEach(function(result) { %>
+        <li>あなたのガチャ結果は<%= result.gacha %>です。デバッグ用：<%= result.number %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+</body>
+</html>
+
