@@ -18,6 +18,26 @@ app.get("/icon", (req, res) => {
   res.render('icon', { filename:"./public/Apple_logo_black.svg", alt:"Apple Logo"});
 });
 
+app.get("/luck", (req, res) => {
+  const num = Math.floor( Math.random() * 100 + 1 );
+  let luck = '';
+  if (num >= 1 && num <= 10) {
+    luck = '大吉';
+} else if (num >= 11 && num <= 30) {
+    luck = '吉';
+} else if (num >= 31 && num <= 50) {
+    luck = '中吉';
+} else if (num >= 51 && num <= 70) {
+    luck = '小吉';
+} else if (num >= 71 && num <= 90) {
+    luck = '末吉';
+} else if (num >= 91 && num <= 100) {
+    luck = '凶';
+}
+
+  res.render( 'luck', {number:num, luck:luck} );
+});
+
 app.get("/janken", (req, res) => {
   let hand = req.query.hand;
   let win = Number(req.query.win) || 0;
@@ -58,8 +78,6 @@ app.get("/janken", (req, res) => {
   res.render('janken', display);
 });
 
-
-
 app.get("/weather", (req, res) => {
   const city = req.query.city;
   const weatherData = {
@@ -67,6 +85,7 @@ app.get("/weather", (req, res) => {
     "Osaka": "曇り",
     "Kyoto": "雨",
     "Nagoya": "雪",
+
   };
   const weather = weatherData[city] || "不明な天気";
   res.render("weather", { city: city, weather: weather });
@@ -94,8 +113,7 @@ app.get("/gamble", (req, res) => {
 
   for (let i = 0; i < rolls; i++) {
     results.push(Math.floor(Math.random() * 6) + 1);
-  }
-//いつか二人以上でできるようにしてしっかりギャンブルできるようにする(◜◡◝)(◜◡◝)
+  }//いつか二人以上でできるようにしてしっかりギャンブルできるようにする(◜◡◝)(◜◡◝)
   const sum = results.reduce((acc, val) => acc + val, 0);
   const outcome = sum % 2 === 0 ? "丁" : "半";
   const judgement = guess === outcome ? "当たり！" : "ハズレ";
@@ -112,8 +130,7 @@ app.get("/gacha", (req, res) => {
     const num = Math.floor(Math.random() * 1000 + 1);
     let gacha = '';
     if (num >= 1 && num <= 6) {
-      gacha = '星5';
-//星5だけ色を変えたかったがわからなくて断念
+      gacha = '星5';//星5だけ色を変えたかったがわからなくて断念
     } else if (num >= 7 && num <= 106) {
       gacha = '星4';
     } else {
@@ -134,35 +151,7 @@ app.get("/gacha", (req, res) => {
 
 
 
-app.get('/chinchiro', (req, res) => {
-  const result = playChinchirorin();
-  res.render('chinchiro', { chinchiro: result.chinchiro, message: result.message });
-});
 
-function playChinchirorin() {
-  const chinchiro = [
-      Math.floor(Math.random() * 6) + 1,
-      Math.floor(Math.random() * 6) + 1,
-      Math.floor(Math.random() * 6) + 1
-  ];
-
-  const counts = chinchiro.reduce((acc, num) => {
-      acc[num] = (acc[num] || 0) + 1;
-      return acc;
-  }, {});
-
-  let message = '';
-
-  if (Object.values(counts).includes(3)) {
-      message = '役満! 三つ揃え!';
-  } else if (Object.values(counts).includes(2)) {
-      message = `役あり: ${Object.keys(counts).find(key => counts[key] === 1)}の目`;
-  } else {
-      message = '役なし';
-  }
-
-  return { chinchiro, message };
-}
 
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
