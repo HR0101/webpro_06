@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タスク管理</title>
+    <style>
+        #task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #task-list li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>タスク管理</h1>
+    <form id="task-form">
+        <input type="text" id="task-input" placeholder="タスクを入力..." required>
+        <button type="submit">追加</button>
+    </form>
+
+    <ul id="task-list">
+    </ul>
+
+    <script src="app.js"></script>
+</body>
+</html>
